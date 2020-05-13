@@ -1,0 +1,10 @@
+cd /jenos1
+file -s *
+cd ..
+
+if sudo ssh root@192.168.43.76 docker ps -a | grep webos
+then
+sudo ssh root@192.168.43.76 docker rm -f webos
+fi
+sudo scp /jenos1/* root@192.168.43.76:/root/jenos
+sudo ssh root@192.168.43.76 docker run -dit -p 89:80 -v /root/jenos:/var/www/html/ --name webos vimal13/apache-webserver-php
